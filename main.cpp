@@ -15,14 +15,34 @@ void populateMenu (vector<string>&);
 void ShowMenu (vector<string>);
 void acceptOrder (vector<string>);
 
-struct MenuItem
+class MenuItem
 {
-  string name;
-  double itemCost; 
-  string desc; 
-  char addLetter; 
-  char removeLetter;
-  int count;    
+  private:
+    string name;
+    double itemCost; 
+    string desc; 
+    char addLetter; 
+    char removeLetter;
+    int count;    
+  public:
+    MenuItem(){name = "Default Name", itemCost = 0.0, desc = "Default Description", addLetter = '\0', removeLetter = '\0', count = 0;} // default constructor
+
+    // setters, mutators
+    void setName(string n){name = n;}
+    void setItemCost(double i){itemCost = i;}
+    void setDesc (string d) {desc = d;}
+    void setAddLetter (char a) {addLetter = a;}
+    void setRemoveLetter (char r) {removeLetter = r;}
+    void setCount (int c) {count = c;}
+
+    // getters, accessors
+    string getName() const {return name;}
+    double getitemCost() const {return itemCost;}
+    string getDesc() const {return desc;}
+    char getAddLetter() const {return addLetter;}
+    char getRemoveLetter() const {return removeLetter;}
+    int getCount() const {return count;}
+
 };
 
 int main()
