@@ -42,8 +42,10 @@ class MenuItem
 
 // prototypes
 void populateMenu (vector<MenuItem> &entireMenu);
-void showMenu (vector<MenuItem> &entireMenu);
-void acceptOrder (vector<MenuItem> &entireMenu);
+void showMenu (vector<MenuItem> &m);
+void acceptOrder (vector<MenuItem> &m);
+void printReceipt(vector<MenuItem> &m, double, double, double, double, double);
+
 
 int main()
 
@@ -111,7 +113,8 @@ void showMenu(vector<MenuItem> &m)
 
 void acceptOrder(vector<MenuItem> &m)
 {
-  char option = '\0';// the user-selected menu item
+  char option = '\0'; // the user-selected menu item
+  char tipChoice = '\0';
   double subtotal = 0.0; 
 
   do
@@ -154,7 +157,7 @@ void acceptOrder(vector<MenuItem> &m)
                 option != m[i].getRemoveLetter() &&
                 option != 'x' &&
                 option != 'X' 
-            ) //test for all of my valid inputs
+            ) // test for all of my valid inputs
             {
               if(i == 0)
               {
@@ -162,8 +165,56 @@ void acceptOrder(vector<MenuItem> &m)
               }  
             }
     }
-  }while(option != 'x' && option != 'X'); 
+  } while(option != 'x' && option != 'X'); 
   cout << "\nThank you for placing your order." << endl; 
-  // handle the tip process here
-  // handle reciept generation here
+
+  cout << "Would you like to tip? (Y/N): ";
+  cin >> tipChoice;
+  double tipAmount = 0.0;
+  if (tipChoice == 'Y' || tipChoice == 'y')
+  {
+    cout << "\nHow much would you like to tip? (suggest 20% or more, enter in decimal): ";
+    cin >> tipAmount;
+  }
+
+  char payment = '\0';
+  double tipping = (subtotal * tipAmount);
+  double tax = (subtotal * 0.0825);
+  double amount = subtotal + tipping + tax;
+  double tender = 0.0;
+  
+  // tipping/receipt
+  cout << "\nYour total amount after tipping and taxes is " << amount << endl;
+  cout << "\nWould you like to pay with cash or credit? (A for cash / R for credit): ";
+  cin >> payment;
+  if (payment == 'A' || payment == 'a')
+  {
+    cout << "\nPlease enter your cash amount: ";
+    cin >> tender;
+
+    if (tender >= amount)
+    {
+      cout << "Your change is $" << tender - amount << endl;
+    }
+    printReceipt(&m, subtotal, amount, tipping, tax, tipAmount);
+  }
+  else if (payment == 'R' || payment == 'r')
+  {
+    cout << "Processing Payment..." << endl;
+    cout << "Your payment has been processed." << endl;
+    printReceipt(&m, subtotal, amount, tipping, tax, tipAmount);
+  }
+  
+}
+
+void printReceipt(vector<MenuItem> &m, double subtotal, double amount, double tipping, double tax, double tipAmount)
+{
+  cout << "Here is your receipt! Thank you for coming, have an amazing day!" << endl;
+  cout << "\n----------------------------" << endl;
+  cout << "YOUR RECEIPT" << endl;
+  cout << "----------------------------" << endl;
+  cout << "AMOUNT: " << amount << endl;
+  cout << "Subtotal: " << subtotal << endl;
+  cout << "Sales Tax: " << tax << endl;
+  cout << "Tipping (" << tipAmount << "): " << tipping << endl;
 }
