@@ -1,7 +1,7 @@
 // Tina Quach
-// COSC-1437-58002
-// 1st - convert the struct Point to a class and object instantiations)
-// 2nd - menu-driven restaurant program
+// COSC-1437-58002 - Dr.T
+// Date: 04/25/2024
+// menu-driven restaurant program
 
 #include <iostream>
 #include<string>
@@ -9,11 +9,6 @@
 #include<iomanip>
 
 using namespace std;
-
-// prototypes
-void populateMenu (vector<string>&);
-void ShowMenu (vector<string>);
-void acceptOrder (vector<string>);
 
 class MenuItem
 {
@@ -37,7 +32,7 @@ class MenuItem
 
     // getters, accessors
     string getName() const {return name;}
-    double getitemCost() const {return itemCost;}
+    double getItemCost() const {return itemCost;}
     string getDesc() const {return desc;}
     char getAddLetter() const {return addLetter;}
     char getRemoveLetter() const {return removeLetter;}
@@ -45,15 +40,20 @@ class MenuItem
 
 };
 
+// prototypes
+void populateMenu (vector<MenuItem> &entireMenu);
+void showMenu (vector<MenuItem> &entireMenu);
+void acceptOrder (vector<MenuItem> &entireMenu);
+
 int main()
 
 {
+  // object of MenuItem class
   vector<MenuItem> wholeMenu; 
-  populateMenu(wholeMenu); //put some default values in the menu
-  showMenu(wholeMenu); //print the current data of the menu on screen 
+  
+  populateMenu(wholeMenu); // put some default values in the menu
+  showMenu(wholeMenu); // print the current data of the menu on screen 
   acceptOrder(wholeMenu); 
-
-  return 0; 
   
   return 0;
 }
@@ -79,35 +79,32 @@ void populateMenu(vector<MenuItem> &entireMenu)
   entireMenu.push_back(Item6); //add to the end of list the Item6
   entireMenu.push_back(Item7); //add to the end of list the Item7
 
-  vector<string> defaultMenuNames = {"Green Tea", "Burrito", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7"}; 
+  vector<string> defaultMenuNames = {"Green Tea", "Burrito", "Ramen", "Burger", "Coke-Cola", "Nachos", "Lemonade"}; 
   vector<char> defaultAddLetters = {'A', 'B', 'C', 'D', 'E', 'F', 'G'}; 
   vector<char> defaultRemoveLetters = {'a', 'b', 'c', 'd', 'e', 'f', 'g'}; 
 
+  // add each item to the default list efficiently
   for(int i = 0; i < numItems; i++)
   {
-    //add each item to the default list efficiently 
-    entireMenu[i].name = defaultMenuNames[i]; 
-    entireMenu[i].addLetter = defaultAddLetters[i]; 
-    entireMenu[i].removeLetter = defaultRemoveLetters[i]; 
-    entireMenu[i].itemCost = (3.00 + i); //set a random starter cost for each item
-    entireMenu[i].count = 0; //initialze all counts to 0
-    entireMenu[i].desc = "delicious"; //set all default desc to "delicous"
+    entireMenu[i].setName(defaultMenuNames[i]);
+    entireMenu[i].setAddLetter(defaultAddLetters[i]);
+    entireMenu[i].setRemoveLetter(defaultRemoveLetters[i]); 
+    entireMenu[i].setItemCost(3.00 + i); // set a random starter cost for each item
+    entireMenu[i].setCount(0); // initialze all counts to 0
+    entireMenu[i].setDesc("delicious"); // set all default desc to "delicous"
   }
-
 
 }
 
 void showMenu(vector<MenuItem> &m)
 {
-  cout << fixed << setprecision(2);//set doubles to 2 decimal places
-  cout << "DrT's Effcient Menu" << endl; 
+  cout << fixed << setprecision(2); // set doubles to 2 decimal places
+  cout << "Dr. T's Effcient Menu" << endl; 
   cout << "ADD  \tNAME \t COST \tREMOVE\tCOUNT\tDESC"<<endl; 
   for(int i = 0; i < m.size(); i++)
   {
-    cout << m[i].addLetter << ")" << setw(10) << m[i].name 
-    << setw(5) << "$" << m[i].itemCost << setw(5) << "(" << m[i].removeLetter
-    << ")" << setw(7) << m[i].count << setw(13) << m[i].desc 
-    <<endl; 
+    cout << m[i].getAddLetter() << ")" << setw(10) << m[i].getName() << setw(5) << "$" << m[i].getItemCost() << setw(5) << "(" << m[i].getRemoveLetter() << ")" << setw(7) << m[i].getCount() << setw(13) << m[i].getDesc() << endl; 
+  
   }
 
 }
@@ -122,39 +119,39 @@ void acceptOrder(vector<MenuItem> &m)
     cout << "\nPlease choose an item (x to Exit): ";
     cin >> option; 
 
-    for(int i=0; i < m.size(); i++)
+    for(int i = 0; i < m.size(); i++)
     {
-      if(option == m[i].addLetter)
+      if (option == m[i].getAddLetter())
       {
-        cout << "\nMenu Item " << m[i].addLetter << " selected."; 
-        m[i].count++; //increment the count by 1
+        cout << "\nMenu Item " << m[i].getAddLetter() << " selected."; 
+        m[i].setCount(m[i].getCount() + 1); // increment the count by 1
         cout << "\033[2J\033[1;1H"; //clear screen 
-        cout << "\n1 UP on " << m[i].name << endl;
-        subtotal += m[i].itemCost; //increment the subtotal by the cost of the item 
-        showMenu(m); //show the updated menu
+        cout << "\n1 UP on " << m[i].getName() << endl;
+        subtotal += m[i].getItemCost(); // increment the subtotal by the cost of the item 
+        showMenu(m); // show the updated menu
         cout << "\nSubtotal: $" << subtotal << endl;  
       }
-      else if(option == m[i].removeLetter)
+      else if(option == m[i].getRemoveLetter())
       {
-        cout << "\nRemove Item " << m[i].removeLetter << " selected."; 
-        if(m[i].count > 0) //subtract if and only if the count is > 0
+        cout << "\nRemove Item " << m[i].getRemoveLetter() << " selected."; 
+        if(m[i].getCount() > 0) // subtract if and only if the count is > 0
         {
-          m[i].count--; //decrement the count by 1
+          m[i].setCount(m[i].getCount() - 1); // decrement the count by 1
           cout << "\033[2J\033[1;1H"; //clear screen 
-          cout << "\n1 DOWN on " << m[i].name << endl;
-          subtotal -= m[i].itemCost; //decrement the subtotal by the cost of the item
+          cout << "\n1 DOWN on " << m[i].getName() << endl;
+          subtotal -= m[i].getItemCost(); // decrement the subtotal by the cost of the item
           showMenu(m); //show the updated menu
           cout << "\nSubtotal: $" << subtotal << endl;  
         }
-        else //the the user why you blocked item removal 
+        else // if item count >= 0 then can't remove
         {
 
-            cout << "\nItem count must be > 0 to remove: " << m[i].name << endl;
+            cout << "\nItem count must be > 0 to remove: " << m[i].getName() << endl;
         }
       }
       else if(
-                option != m[i].addLetter && 
-                option != m[i].removeLetter &&
+                option != m[i].getAddLetter() && 
+                option != m[i].getRemoveLetter() &&
                 option != 'x' &&
                 option != 'X' 
             ) //test for all of my valid inputs
@@ -167,6 +164,6 @@ void acceptOrder(vector<MenuItem> &m)
     }
   }while(option != 'x' && option != 'X'); 
   cout << "\nThank you for placing your order." << endl; 
-  //handle the tip process here
-  //handle reciept generation here
+  // handle the tip process here
+  // handle reciept generation here
 }
