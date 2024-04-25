@@ -45,7 +45,7 @@ class MenuItem
 void populateMenu (vector<MenuItem> &entireMenu);
 void showMenu (vector<MenuItem> &m);
 void acceptOrder (vector<MenuItem> &m);
-void printReceipt(vector<string> itemNames, double, double, double, double, double);
+void printReceipt(vector<string> itemNames, vector<MenuItem> m, double, double, double, double, double);
 
 
 int main()
@@ -197,20 +197,20 @@ void acceptOrder(vector<MenuItem> &m)
 
     if (tender >= amount)
     {
-      cout << "Your change is $" << tender - amount << endl;
+      cout << "\nYour change is $" << tender - amount << endl;
     }
-    printReceipt(itemNames, subtotal, amount, tipping, tax, tipAmount);
+    printReceipt(itemNames, m, subtotal, amount, tipping, tax, tipAmount);
   }
   else if (payment == 'R' || payment == 'r')
   {
     cout << "Processing Payment..." << endl;
     cout << "Your payment has been processed." << endl;
-    printReceipt(itemNames, subtotal, amount, tipping, tax, tipAmount);
+    printReceipt(itemNames, m, subtotal, amount, tipping, tax, tipAmount);
   }
   
 }
 
-void printReceipt(vector<string> itemNames, double subtotal, double amount, double tipping, double tax, double tipAmount)
+void printReceipt(vector<string> itemNames, vector<MenuItem> m, double subtotal, double amount, double tipping, double tax, double tipAmount)
 {
   cout << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << endl;
   cout << "\n----------------------------" << endl;
