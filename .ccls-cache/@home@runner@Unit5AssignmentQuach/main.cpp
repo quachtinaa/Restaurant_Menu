@@ -2,11 +2,12 @@
 // COSC-1437-58002 - Dr.T
 // Date: 04/25/2024
 // menu-driven restaurant program
+// Credit to Dr. T for making the outline and menu
 
 #include <iostream>
-#include<string>
-#include<vector>
-#include<iomanip>
+#include <string>
+#include <vector>
+#include <iomanip>
 
 using namespace std;
 
@@ -44,7 +45,7 @@ class MenuItem
 void populateMenu (vector<MenuItem> &entireMenu);
 void showMenu (vector<MenuItem> &m);
 void acceptOrder (vector<MenuItem> &m);
-void printReceipt(vector<MenuItem> &m, double, double, double, double, double);
+void printReceipt(vector<string> itemNames, double, double, double, double, double);
 
 
 int main()
@@ -115,7 +116,8 @@ void acceptOrder(vector<MenuItem> &m)
 {
   char option = '\0'; // the user-selected menu item
   char tipChoice = '\0';
-  double subtotal = 0.0; 
+  double subtotal = 0.0;
+  vector<string>itemNames;
 
   do
   {
@@ -133,6 +135,7 @@ void acceptOrder(vector<MenuItem> &m)
         subtotal += m[i].getItemCost(); // increment the subtotal by the cost of the item 
         showMenu(m); // show the updated menu
         cout << "\nSubtotal: $" << subtotal << endl;  
+        itemNames.push_back(m[i].getName());
       }
       else if(option == m[i].getRemoveLetter())
       {
@@ -196,22 +199,31 @@ void acceptOrder(vector<MenuItem> &m)
     {
       cout << "Your change is $" << tender - amount << endl;
     }
-    printReceipt(&m, subtotal, amount, tipping, tax, tipAmount);
+    printReceipt(itemNames, subtotal, amount, tipping, tax, tipAmount);
   }
   else if (payment == 'R' || payment == 'r')
   {
     cout << "Processing Payment..." << endl;
     cout << "Your payment has been processed." << endl;
-    printReceipt(&m, subtotal, amount, tipping, tax, tipAmount);
+    printReceipt(itemNames, subtotal, amount, tipping, tax, tipAmount);
   }
   
 }
 
-void printReceipt(vector<MenuItem> &m, double subtotal, double amount, double tipping, double tax, double tipAmount)
+void printReceipt(vector<string> itemNames, double subtotal, double amount, double tipping, double tax, double tipAmount)
 {
-  cout << "Here is your receipt! Thank you for coming, have an amazing day!" << endl;
+  cout << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << endl;
   cout << "\n----------------------------" << endl;
   cout << "YOUR RECEIPT" << endl;
+
+  // display items
+  cout << "----------------------------" << endl;
+  for (int j = 0; j < itemNames.size(); j++)
+    {
+    cout << itemNames[j] << endl;
+    }
+
+  // display money portion
   cout << "----------------------------" << endl;
   cout << "AMOUNT: " << amount << endl;
   cout << "Subtotal: " << subtotal << endl;
