@@ -70,7 +70,10 @@ int main()
      
     } while (orderAgain != 'N' && orderAgain != 'n');
 
-  cout << "\nIt was a pleasure having business with you! Thank you for coming to 'Lettuce Eat' and please come again! 👋" << endl;
+  string color = "\x1b[" + to_string(32) + ";"+to_string(91)+"m";
+  string reset = "\x1b[0m";
+  
+  cout << color << "\nIt was a pleasure having business with you! Thank you for coming to 'Lettuce Eat' and please come again! 👋" << reset;
   
   return 0;
 }
@@ -241,27 +244,40 @@ void acceptOrder(vector<MenuItem> &m)
   
   // tipping/receipt
   cout << "\nYour total amount after tipping and taxes is " << color << amount << endl;
-  cout << "\nWould you like to pay with cash or credit card? (A for cash / R for credit): " << reset;
-  payment = validateChar(payment);
-  if (payment == 'A' || payment == 'a')
-  {
-    cout << "\nPlease enter your cash amount: ";
-    tender = validateDouble(tender);
-
-    if (tender >= amount)
+  do
     {
-      cout << "\nYour change is $" << color << tender - amount << reset << endl;
-    }
-    cout << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << endl;
-    printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
-  }
-  else if (payment == 'R' || payment == 'r')
-  {
-    cout << "Processing Payment..." << endl;
-    cout << "Your payment has been processed." << endl;
-    cout << color << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << reset << endl;
-    printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
-  }
+      cout << "\nWould you like to pay with cash or credit card? (A for cash / R for credit): " << reset;
+      payment = validateChar(payment);
+      if (payment == 'A' || payment == 'a')
+      {
+        do
+          {
+            cout << "\nPlease enter your cash amount: ";
+            tender = validateDouble(tender);
+        if (tender >= amount)
+        {
+          cout << "\nYour change is $" << color << tender - amount << reset << endl;
+          cout << color << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << reset << endl;
+          printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
+        }
+        else if (tender < amount)
+        {
+          cout << "\nThat's not enough money. Please enter more." << endl;
+        }
+          } while (tender < amount);
+      }
+      else if (payment == 'R' || payment == 'r')
+      {
+        cout << "\nProcessing Payment..." << endl;
+        cout << "Your payment has been processed." << endl;
+        cout << color << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << reset << endl;
+        printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
+      }
+      else
+      {
+        cout << "That's not a valid option. Please try again." << endl;
+      }
+    } while (payment != 'A' && payment != 'a' && payment != 'R' && payment != 'r');
 
 
   // receipt generation to receipt.txt

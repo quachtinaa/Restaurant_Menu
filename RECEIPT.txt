@@ -2,25 +2,18 @@
 ------------------------------
 Green Tea              $3.25
 Lemonade               $3.25
-Fruit Tart             $5.50
-Smoked Steak           $20.75
-Smoked Steak           $20.75
-Smoked Steak           $20.75
-Fish Fillet            $18.75
-Green Tea              $3.25
-Green Tea              $3.25
-Lemonade               $3.25
 
-TOTAL ITEMS PURCHASED = 10
+TOTAL ITEMS PURCHASED = 2
 ------------------------------
-Subtotal:              $82.00
-Tipping (0.20):        $16.40
-Tax:                   $6.77
-TOTAL:                 $105.17
+Subtotal:              $6.50
+Tipping (0.00):        $0.00
+Tax:                   $0.54
+TOTAL:                 $7.04
 ------------------------------
-CASH:                  $100.00
-------------------------------
-CHANGE:                $-5.17
-------------------------------
+CREDIT CARD            $7.04
+************1234
+-----------------------------
+Change Due: $00.00
+-----------------------------
   THANK YOU FOR EATING AT
 	    LETTUCE EAT 🥦
