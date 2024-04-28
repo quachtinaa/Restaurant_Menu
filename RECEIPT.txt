@@ -1,21 +1,20 @@
 				YOUR RECEIPT
-----------------------------
-Green Tea          $3.25
-Lemonade         $3.25
-Fruit Tart           $5.50
-Calamari         $9.75
-Smoked Steak             $20.75
+------------------------------
+Green Tea              $3.25
+Lemonade               $3.25
+Fruit Tart             $5.50
+Smoked Steak           $20.75
+Smoked Steak           $20.75
 TOTAL ITEMS PURCHASED = 5
-----------------------------
-Subtotal: 42.50
-Tipping (0.20): 8.50
-Tax: 3.51
-TOTAL: 54.51
-----------------------------
-CREDIT CARD 
-************1234
-----------------------------
-Change Due: $00.00
-----------------------------
-   THANK YOU FOR EATING AT
-	   LETTUCE EAT 🥦
+------------------------------
+Subtotal:              $53.50
+Tipping (0.20):        $10.70
+Tax:                   $4.41
+TOTAL:                 $68.61
+------------------------------
+CASH:                  $75.00
+------------------------------
+CHANGE:                $6.39
+------------------------------
+  THANK YOU FOR EATING AT
+	    LETTUCE EAT 🥦
