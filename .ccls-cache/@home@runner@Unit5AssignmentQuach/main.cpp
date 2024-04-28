@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
 
@@ -213,20 +214,68 @@ void acceptOrder(vector<MenuItem> &m)
     {
       cout << "\nYour change is $" << tender - amount << endl;
     }
+    cout << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << endl;
     printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
   }
   else if (payment == 'R' || payment == 'r')
   {
     cout << "Processing Payment..." << endl;
     cout << "Your payment has been processed." << endl;
+    cout << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << endl;
     printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
+  }
+
+
+  // receipt generation
+  string my_string = "Default";
+  string my_string2 = "Default";
+  string my_string3 = "Default";
+  
+  // open the file
+  ofstream outputFile("RECEIPT.txt");
+  if (outputFile.is_open()) // once opened, put the receipt into the file
+  {
+    ostringstream doubleNum;
+    outputFile << fixed << setprecision(2); // set so displays two decimal places
+    
+    // display money portion
+    my_string = "----------------------------\nSubtotal: ";
+    outputFile << my_string << subtotal;
+
+    my_string = "\nTipping (";
+    outputFile << my_string << tipAmount;
+    my_string2 = "): ";
+    outputFile << my_string2 << tipping;
+
+    my_string = "\nTax: ";
+    outputFile << my_string << tax;
+
+    my_string = "\nTOTAL: ";
+    outputFile << my_string << amount;
+
+    my_string2 = "\n----------------------------\n"
+    outputFile << my_string2;
+    
+    if (payment == 'A'|| payment == 'a')
+    {
+      my_string3 = "CASH: " + to_string(tender) + "\n----------------------------\nCHANGE: " + to_string(tender - amount) + "\n----------------------------\n";
+    }
+    else if (payment == 'R' || payment == 'r')
+    {
+      my_string3 = "CREDIT CARD \n************1234\n----------------------------\nChange Due: $00.00";
+    }
+    outputFile << my_string << my_string2;
+  }
+  else 
+  {
+    cerr << "Unable to open file for writing." << endl;
+    return;
   }
   
 }
 
 void printReceipt(vector<string> itemNames, vector<double> itemCosts, vector<MenuItem> m, double subtotal, double amount, double tipping, double tax, double tipAmount, char payment, double tender)
 {
-  cout << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << endl;
   cout << "\n----------------------------" << endl;
   cout << "YOUR RECEIPT" << endl;
 
@@ -244,17 +293,19 @@ void printReceipt(vector<string> itemNames, vector<double> itemCosts, vector<Men
   cout << "Sales Tax: " << tax << endl;
   cout << "Tipping (" << tipAmount << "): " << tipping << endl;
   cout << "----------------------------" << endl;
-  if (payment == 'A')
+  if (payment == 'A' || payment == 'a')
   {
     cout << "CASH" << setw(20) << tender << endl;
     cout << "----------------------------" << endl;
     cout << "Change Due" << setw(20) << tender - amount << endl;
   }
-  else if (payment == 'R')
+  else if (payment == 'R' || payment == 'r')
   {
     cout << "CREDIT CARD" << setw(24) << amount << endl;
     cout << "************1234" << endl;
     cout << "----------------------------" << endl;
     cout << "Change Due" << setw(18) << "$0.00" << endl;
   }
+
+  cout << "Now generating the receipt..." << endl;
 }
