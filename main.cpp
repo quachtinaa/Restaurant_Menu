@@ -65,10 +65,18 @@ int main()
       acceptOrder(wholeMenu); 
 
        // ask user if they would like to order again
+      do
+        {
        cout << "\nWould you like to order again? (Y/N): ";
        orderAgain = validateChar(orderAgain);
-     
-    } while (orderAgain != 'N' && orderAgain != 'n');
+      if (orderAgain != 'Y' && orderAgain != 'y' && orderAgain != 'N' && orderAgain != 'n')
+      {
+        cout << "\nInvalid input! Enter either Y or N: ";
+        orderAgain = validateChar(orderAgain);
+      }
+        } while (orderAgain != 'Y' && orderAgain != 'y' && orderAgain != 'N' && orderAgain != 'n');
+      
+    } while (orderAgain == 'Y' && orderAgain == 'y');
 
   string color = "\x1b[" + to_string(32) + ";"+to_string(91)+"m";
   string reset = "\x1b[0m";
@@ -128,8 +136,8 @@ void showMenu(vector<MenuItem> &m)
   color = "\x1b[" + to_string(32) + ";"+to_string(104)+"m";
   cout << color << "                                                                                     \n" << "                                   🥪 LETTUCE EAT 🥪                                 ";
   cout << "\n-----------------------------------------------------------------------------------  " << endl;
-  cout << "ADD      NAME       COST    REMOVE COUNT                        DESC                 " << endl; 
-  cout << "---     ----      ----  ------ -----                        ----                     " << endl;
+  cout << "ADD      NAME    COST    REMOVE COUNT                        DESC                    " << endl; 
+  cout << "---      ----    ----    ------ -----                        ----                    \n";
   for (int i = 0; i < m.size(); i++)
   {
     cout << m[i].getAddLetter() << ")" << setw(13) << m[i].getName() << setw(3) << "$" << m[i].getItemCost();
@@ -223,8 +231,16 @@ void acceptOrder(vector<MenuItem> &m)
     tipChoice = validateChar(tipChoice);
     if (tipChoice == 'Y' || tipChoice == 'y')
     {
-      cout << color << "\nEnter tip percentage in decimal: " << reset;
+      do
+        {
+      cout << color << "\nEnter a tip percentage of at least 20% in decimal form: " << reset;
       tipAmount = validateDouble(tipAmount);
+      if (tipAmount < 0.20)
+      {
+        cout << color << "\nInvalid, enter a tip percentage of at least 20%: " << reset;
+        tipAmount = validateDouble(tipAmount);
+      }
+        } while (tipAmount < 0.20);
     }
     else if (tipChoice == 'N' || tipChoice == 'n')
     {
@@ -244,7 +260,7 @@ void acceptOrder(vector<MenuItem> &m)
   double tender = 0.0;
   
   // tipping/receipt
-  cout << "\nYour total amount after tipping and taxes is " << color << amount << endl;
+  cout << "\nYour total amount after tipping and taxes is " << color << "$" << amount << endl;
   do
     {
       cout << "\nWould you like to pay with cash or credit card? (A for cash / R for credit): " << reset;
@@ -388,7 +404,7 @@ void printReceipt(vector<string> itemNames, vector<double> itemCosts, vector<Men
     cout << "CREDIT CARD " << setw(10) << "$"<< amount << endl;
     cout << "************1234" << endl;
     cout << "-----------------------------" << endl;
-    cout << "Change Due" << setw(15) << "$0.00" << endl;
+    cout << "Change Due" << setw(16) << "$0.00" << endl;
   }
   cout << "-----------------------------" << endl;
   cout << "   THANK YOU FOR EATING AT" << endl << "       LETTUCE EAT 🥦" << reset << endl;
