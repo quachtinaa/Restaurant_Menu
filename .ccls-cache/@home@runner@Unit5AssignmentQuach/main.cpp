@@ -211,8 +211,9 @@ void acceptOrder(vector<MenuItem> &m)
   string color = "\x1b[" + to_string(32) + ";"+to_string(91)+"m";
   string reset = "\x1b[0m";
   
-  cout << color << "\nThank you for placing your order." << reset << endl;
+  cout << color << "\nThank you for placing your order!" << reset << endl;
 
+  color = "\x1b[" + to_string(32) + ";"+to_string(92)+"m";
   
   // ask for tips
   double tipAmount = 0.0;
@@ -222,7 +223,7 @@ void acceptOrder(vector<MenuItem> &m)
     tipChoice = validateChar(tipChoice);
     if (tipChoice == 'Y' || tipChoice == 'y')
     {
-      cout << "\nEnter tip percentage in decimal: ";
+      cout << color << "\nEnter tip percentage in decimal: " << reset;
       tipAmount = validateDouble(tipAmount);
     }
     else if (tipChoice == 'N' || tipChoice == 'n')
@@ -252,7 +253,7 @@ void acceptOrder(vector<MenuItem> &m)
       {
         do
           {
-            cout << "\nPlease enter your cash amount: ";
+            cout << color << "\nPlease enter your cash amount: " << reset;
             tender = validateDouble(tender);
         if (tender >= amount)
         {
@@ -268,8 +269,9 @@ void acceptOrder(vector<MenuItem> &m)
       }
       else if (payment == 'R' || payment == 'r')
       {
-        cout << "\nProcessing Payment..." << endl;
-        cout << "Your payment has been processed." << endl;
+        cout << color << "\nProcessing Payment..." << endl;
+        cout << "Your payment has been processed." << reset << endl;
+        color = "\x1b[" + to_string(32) + ";"+to_string(91)+"m";
         cout << color << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << reset << endl;
         printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
       }
@@ -386,7 +388,7 @@ void printReceipt(vector<string> itemNames, vector<double> itemCosts, vector<Men
     cout << "CREDIT CARD " << setw(10) << "$"<< amount << endl;
     cout << "************1234" << endl;
     cout << "-----------------------------" << endl;
-    cout << "Change Due" << setw(16) << "$0.00" << endl;
+    cout << "Change Due" << setw(15) << "$0.00" << endl;
   }
   cout << "-----------------------------" << endl;
   cout << "   THANK YOU FOR EATING AT" << endl << "       LETTUCE EAT 🥦" << reset << endl;
