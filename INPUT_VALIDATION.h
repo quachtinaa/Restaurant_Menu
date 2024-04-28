@@ -50,7 +50,6 @@ int validateInt(int &intInput)
 {
   while (true)
     {
-        cout << "enter an integer: ";
 
         try
         {
@@ -73,7 +72,6 @@ double validateDouble(double &doubleInput)
 {
   while (true)
     {
-        cout << "enter a number with or without decimals (double): ";
 
         try
         {
@@ -96,7 +94,6 @@ string validateString(string &stringInput)
 {
     while (true) 
     {
-        cout << "enter a word (no spaces): ";
 
         try
         {
@@ -119,7 +116,6 @@ char validateChar(char &charInput)
 { 
     while (true)
     {
-        cout << "enter a single letter or number (1 digit): ";
 
         try
         {

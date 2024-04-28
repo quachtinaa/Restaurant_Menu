@@ -116,16 +116,17 @@ void populateMenu(vector<MenuItem> &entireMenu)
 
 void showMenu(vector<MenuItem> &m)
 {
-  string color = "\x1b[" + to_string(32) + ";"+to_string(104)+"m";
+  string color = "\x1b[" + to_string(32) + ";"+to_string(91)+"m";
   string reset = "\x1b[0m";
 
-  
+
   cout << fixed << setprecision(2); // set doubles to 2 decimal places
-  cout << color << "                                   🥪 LETTUCE EAT 🥪                "; 
-  cout << endl;
-  cout << "-----------------------------------------------------------------------------------  " << endl;
+  cout << color << "Welcome to 'Lettuce Eat'! Here is our menu:\n\n" << reset << endl;
+  color = "\x1b[" + to_string(32) + ";"+to_string(104)+"m";
+  cout << color << "                                                                                     \n" << "                                   🥪 LETTUCE EAT 🥪                                 ";
+  cout << "\n-----------------------------------------------------------------------------------  " << endl;
   cout << "ADD      NAME       COST    REMOVE COUNT                        DESC                 " << endl; 
-  cout << "---     ----      ----  ------ -----                     ----                        " << endl;
+  cout << "---     ----      ----  ------ -----                        ----                     " << endl;
   for (int i = 0; i < m.size(); i++)
   {
     cout << m[i].getAddLetter() << ")" << setw(13) << m[i].getName() << setw(3) << "$" << m[i].getItemCost();
@@ -141,7 +142,7 @@ void showMenu(vector<MenuItem> &m)
     cout << setw(6) << m[i].getCount() << "   " << m[i].getDesc() << endl; 
   
   }
-  cout << "-----------------------------------------------------------------------------------" << reset << endl;
+  cout << "-----------------------------------------------------------------------------------  " << reset << endl;
 }
 
 void acceptOrder(vector<MenuItem> &m)
@@ -203,18 +204,22 @@ void acceptOrder(vector<MenuItem> &m)
             }
     }
   } while(option != 'x' && option != 'X'); 
-  cout << "\nThank you for placing your order." << endl; 
+
+  string color = "\x1b[" + to_string(32) + ";"+to_string(91)+"m";
+  string reset = "\x1b[0m";
+  
+  cout << color << "\nThank you for placing your order." << reset << endl;
 
   
   // ask for tips
   double tipAmount = 0.0;
   do
   {
-    cout << "\nWould you like to tip 20% or more? (Y/N): ";
+    cout << color << "\nWould you like to tip us 20% or more? (Y/N): " << reset;
     tipChoice = validateChar(tipChoice);
     if (tipChoice == 'Y' || tipChoice == 'y')
     {
-      cout << "\nEnter tip amount: ";
+      cout << "\nEnter tip percentage in decimal: ";
       tipAmount = validateDouble(tipAmount);
     }
     else if (tipChoice == 'N' || tipChoice == 'n')
@@ -235,8 +240,8 @@ void acceptOrder(vector<MenuItem> &m)
   double tender = 0.0;
   
   // tipping/receipt
-  cout << "\nYour total amount after tipping and taxes is " << amount << endl;
-  cout << "\nWould you like to pay with cash or credit card? (A for cash / R for credit): ";
+  cout << "\nYour total amount after tipping and taxes is " << color << amount << endl;
+  cout << "\nWould you like to pay with cash or credit card? (A for cash / R for credit): " << reset;
   payment = validateChar(payment);
   if (payment == 'A' || payment == 'a')
   {
@@ -245,7 +250,7 @@ void acceptOrder(vector<MenuItem> &m)
 
     if (tender >= amount)
     {
-      cout << "\nYour change is $" << tender - amount << endl;
+      cout << "\nYour change is $" << color << tender - amount << reset << endl;
     }
     cout << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << endl;
     printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
@@ -254,7 +259,7 @@ void acceptOrder(vector<MenuItem> &m)
   {
     cout << "Processing Payment..." << endl;
     cout << "Your payment has been processed." << endl;
-    cout << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << endl;
+    cout << color << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << reset << endl;
     printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
   }
 
@@ -333,8 +338,11 @@ void acceptOrder(vector<MenuItem> &m)
 
 void printReceipt(vector<string> itemNames, vector<double> itemCosts, vector<MenuItem> m, double subtotal, double amount, double tipping, double tax, double tipAmount, char payment, double tender)
 {
-  cout << "\n-----------------------------" << endl;
-  cout << "\t\tYOUR RECEIPT" << endl;
+  string color = "\x1b[" + to_string(32) + ";"+to_string(107)+"m";
+  string reset = "\x1b[0m";
+  
+  cout << color << "\n-----------------------------" << endl;
+  cout << "         YOUR RECEIPT" << endl;
 
   // display items
   cout << "-----------------------------" << endl;
@@ -365,7 +373,7 @@ void printReceipt(vector<string> itemNames, vector<double> itemCosts, vector<Men
     cout << "Change Due" << setw(16) << "$0.00" << endl;
   }
   cout << "-----------------------------" << endl;
-  cout << "   THANK YOU FOR EATING AT" << endl << "\t   LETTUCE EAT 🥦" << endl;
+  cout << "   THANK YOU FOR EATING AT" << endl << "       LETTUCE EAT 🥦" << reset << endl;
 
   cout << "\nNow generating the receipt in RECEIPT.txt..." << endl;
 }
