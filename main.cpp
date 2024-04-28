@@ -9,6 +9,7 @@
 #include <vector>
 #include <iomanip>
 #include <fstream>
+#include "input_validation.h"
 
 using namespace std;
 
@@ -65,7 +66,7 @@ int main()
 
        // ask user if they would like to order again
        cout << "\nWould you like to order again? (Y/N): ";
-       cin >> orderAgain;
+       orderAgain = validateChar(orderAgain);
      
     } while (orderAgain != 'N' && orderAgain != 'n');
 
@@ -98,7 +99,7 @@ void populateMenu(vector<MenuItem> &entireMenu)
   vector<string> defaultMenuNames = {"Green Tea", "Lemonade", "Fruit Tart", "Calamari", "Veggie Wrap", "Fish Fillet", "Smoked Steak"}; 
   vector<char> defaultAddLetters = {'A', 'B', 'C', 'D', 'E', 'F', 'G'}; 
   vector<char> defaultRemoveLetters = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
-  vector<string> defaultDescriptions = {"Refreshing beverage packed w/ antioxidants", "Tangy, sweet citrus drink", "Flaky pastry filled w/ fresh fruit and custard", "Crispy, golden squid rings w/ spicy mayo sauce", "Fresh veggies within a soft tortilla", "Seasoned fish fillet w/ tangy tartar sauce", "Premium steak w/ a side of mashed potatoes"};
+  vector<string> defaultDescriptions = {"Refreshing beverage packed w/ antioxidants      ", "Tangy, sweet citrus drink                       ", "Flaky pastry filled w/ fresh fruit and custard  ", "Crispy, golden squid rings w/ spicy mayo sauce  ", "Fresh veggies within a soft tortilla            ", "Seasoned fish fillet w/ tangy tartar sauce      ", "Premium steak w/ a side of mashed potatoes      "};
   vector<double> defaultItemCosts = {3.25, 3.25, 5.50, 9.75, 11.75, 18.75, 20.75 };
   // add each item to the default list efficiently
   for(int i = 0; i < numItems; i++)
@@ -115,11 +116,16 @@ void populateMenu(vector<MenuItem> &entireMenu)
 
 void showMenu(vector<MenuItem> &m)
 {
+  string color = "\x1b[" + to_string(32) + ";"+to_string(104)+"m";
+  string reset = "\x1b[0m";
+
+  
   cout << fixed << setprecision(2); // set doubles to 2 decimal places
-  cout << "\t\t\t\t\t\t\t\t  🥪 LETTUCE EAT 🥪" << endl; 
-  cout << "-----------------------------------------------------------------------------------" << endl;
-  cout << "ADD  \tNAME \t  COST\tREMOVE COUNT\t\t\t\t\t DESC" << endl; 
-  cout << "---     ----      ----  ------ -----                     ----" << endl;
+  cout << color << "                                   🥪 LETTUCE EAT 🥪                "; 
+  cout << endl;
+  cout << "-----------------------------------------------------------------------------------  " << endl;
+  cout << "ADD      NAME       COST    REMOVE COUNT                        DESC                 " << endl; 
+  cout << "---     ----      ----  ------ -----                     ----                        " << endl;
   for (int i = 0; i < m.size(); i++)
   {
     cout << m[i].getAddLetter() << ")" << setw(13) << m[i].getName() << setw(3) << "$" << m[i].getItemCost();
@@ -131,10 +137,11 @@ void showMenu(vector<MenuItem> &m)
     {
       cout << setw(3) << "(" << m[i].getRemoveLetter() << ")";
     }
+
     cout << setw(6) << m[i].getCount() << "   " << m[i].getDesc() << endl; 
   
   }
-  cout << "-----------------------------------------------------------------------------------" << endl;
+  cout << "-----------------------------------------------------------------------------------" << reset << endl;
 }
 
 void acceptOrder(vector<MenuItem> &m)
@@ -204,11 +211,11 @@ void acceptOrder(vector<MenuItem> &m)
   do
   {
     cout << "\nWould you like to tip 20% or more? (Y/N): ";
-    cin >> tipChoice;
+    tipChoice = validateChar(tipChoice);
     if (tipChoice == 'Y' || tipChoice == 'y')
     {
-      cout << "\nEnter tip amount (in decimal): ";
-      cin >> tipAmount;
+      cout << "\nEnter tip amount: ";
+      tipAmount = validateDouble(tipAmount);
     }
     else if (tipChoice == 'N' || tipChoice == 'n')
     {
@@ -216,7 +223,7 @@ void acceptOrder(vector<MenuItem> &m)
     }
     else
     {
-      cout << "\nInvalid option. Plese try again." << endl;
+      cout << "\nInvalid option. Please try again." << endl;
     }
   }
     while (tipChoice != 'Y' && tipChoice != 'y' && tipChoice != 'N' && tipChoice != 'n');
@@ -230,11 +237,11 @@ void acceptOrder(vector<MenuItem> &m)
   // tipping/receipt
   cout << "\nYour total amount after tipping and taxes is " << amount << endl;
   cout << "\nWould you like to pay with cash or credit card? (A for cash / R for credit): ";
-  cin >> payment;
+  payment = validateChar(payment);
   if (payment == 'A' || payment == 'a')
   {
     cout << "\nPlease enter your cash amount: ";
-    cin >> tender;
+    tender = validateDouble(tender);
 
     if (tender >= amount)
     {
