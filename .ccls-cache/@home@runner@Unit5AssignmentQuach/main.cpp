@@ -104,9 +104,10 @@ void showMenu(vector<MenuItem> &m)
 {
   cout << fixed << setprecision(2); // set doubles to 2 decimal places
   cout << "\t\t\t\t\t\t\t\t\t LETTUCE EAT" << endl; 
-  cout << "--------------------------------------------------------------------------------------" << endl;
-  cout << "ADD  \tNAME \t  COST\tREMOVE\tCOUNT\t DESC"<<endl; 
-  for(int i = 0; i < m.size(); i++)
+  cout << "-----------------------------------------------------------------------------------" << endl;
+  cout << "ADD  \tNAME \t  COST\tREMOVE COUNT\t\t\t\t\t DESC" << endl; 
+  cout << "---     ----      ----  ------ -----                     ----" << endl;
+  for (int i = 0; i < m.size(); i++)
   {
     cout << m[i].getAddLetter() << ")" << setw(13) << m[i].getName() << setw(3) << "$" << m[i].getItemCost();
     if (m[i].getRemoveLetter() == 'a' || m[i].getRemoveLetter() == 'b' || m[i].getRemoveLetter() == 'c' || m[i].getRemoveLetter() == 'd')
@@ -117,10 +118,10 @@ void showMenu(vector<MenuItem> &m)
     {
       cout << setw(3) << "(" << m[i].getRemoveLetter() << ")";
     }
-    cout << setw(5) << m[i].getCount() << "      " << m[i].getDesc() << endl; 
+    cout << setw(6) << m[i].getCount() << "   " << m[i].getDesc() << endl; 
   
   }
-
+  cout << "-----------------------------------------------------------------------------------" << endl;
 }
 
 void acceptOrder(vector<MenuItem> &m)
