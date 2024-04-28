@@ -45,7 +45,7 @@ class MenuItem
 void populateMenu (vector<MenuItem> &entireMenu);
 void showMenu (vector<MenuItem> &m);
 void acceptOrder (vector<MenuItem> &m);
-void printReceipt(vector<string> itemNames, vector<MenuItem> m, double, double, double, double, double);
+void printReceipt(vector<string> itemNames, vector<double> itemCosts, vector<MenuItem> m, double, double, double, double, double, char, double);
 
 
 int main()
@@ -82,19 +82,20 @@ void populateMenu(vector<MenuItem> &entireMenu)
   entireMenu.push_back(Item6); //add to the end of list the Item6
   entireMenu.push_back(Item7); //add to the end of list the Item7
 
-  vector<string> defaultMenuNames = {"Green Tea", "Burrito", "Ramen", "Burger", "Coke-Cola", "Nachos", "Lemonade"}; 
+  vector<string> defaultMenuNames = {"Green Tea", "Lemonade", "Fruit Tart", "Calamari", "Veggie Wrap", "Fish Fillet", "Smoked Steak"}; 
   vector<char> defaultAddLetters = {'A', 'B', 'C', 'D', 'E', 'F', 'G'}; 
-  vector<char> defaultRemoveLetters = {'a', 'b', 'c', 'd', 'e', 'f', 'g'}; 
-
+  vector<char> defaultRemoveLetters = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
+  vector<string> defaultDescriptions = {"Refreshing beverage packed w/ antioxidants", "Tangy, sweet citrus drink", "Flaky pastry filled w/ fresh fruit and custard", "Crispy, golden squid rings w/ spicy mayo sauce", "Fresh veggies within a soft tortilla", "Seasoned fish fillet w/ tangy tartar sauce", "Premium steak w/ a side of mashed potatoes"};
+  vector<double> defaultItemCosts = {3.25, 3.25, 5.50, 9.75, 11.75, 18.75, 20.75 };
   // add each item to the default list efficiently
   for(int i = 0; i < numItems; i++)
   {
     entireMenu[i].setName(defaultMenuNames[i]);
     entireMenu[i].setAddLetter(defaultAddLetters[i]);
     entireMenu[i].setRemoveLetter(defaultRemoveLetters[i]); 
-    entireMenu[i].setItemCost(3.00 + i); // set a random starter cost for each item
+    entireMenu[i].setItemCost(defaultItemCosts[i]); 
     entireMenu[i].setCount(0); // initialze all counts to 0
-    entireMenu[i].setDesc("delicious"); // set all default desc to "delicous"
+    entireMenu[i].setDesc(defaultDescriptions[i]);
   }
 
 }
@@ -102,11 +103,21 @@ void populateMenu(vector<MenuItem> &entireMenu)
 void showMenu(vector<MenuItem> &m)
 {
   cout << fixed << setprecision(2); // set doubles to 2 decimal places
-  cout << "Dr. T's Effcient Menu" << endl; 
-  cout << "ADD  \tNAME \t COST \tREMOVE\tCOUNT\tDESC"<<endl; 
+  cout << "\t\t\t\t\t\t\t\t\t LETTUCE EAT" << endl; 
+  cout << "--------------------------------------------------------------------------------------" << endl;
+  cout << "ADD  \tNAME \t  COST\tREMOVE\tCOUNT\t DESC"<<endl; 
   for(int i = 0; i < m.size(); i++)
   {
-    cout << m[i].getAddLetter() << ")" << setw(10) << m[i].getName() << setw(5) << "$" << m[i].getItemCost() << setw(5) << "(" << m[i].getRemoveLetter() << ")" << setw(7) << m[i].getCount() << setw(13) << m[i].getDesc() << endl; 
+    cout << m[i].getAddLetter() << ")" << setw(13) << m[i].getName() << setw(3) << "$" << m[i].getItemCost();
+    if (m[i].getRemoveLetter() == 'a' || m[i].getRemoveLetter() == 'b' || m[i].getRemoveLetter() == 'c' || m[i].getRemoveLetter() == 'd')
+    {
+      cout << setw(4) << "(" << m[i].getRemoveLetter() << ")";
+    }
+    else if (m[i].getRemoveLetter() == 'e' || m[i].getRemoveLetter() == 'f' || m[i].getRemoveLetter() == 'g')
+    {
+      cout << setw(3) << "(" << m[i].getRemoveLetter() << ")";
+    }
+    cout << setw(5) << m[i].getCount() << "      " << m[i].getDesc() << endl; 
   
   }
 
@@ -118,6 +129,7 @@ void acceptOrder(vector<MenuItem> &m)
   char tipChoice = '\0';
   double subtotal = 0.0;
   vector<string>itemNames;
+  vector<double>itemCosts;
 
   do
   {
@@ -136,6 +148,7 @@ void acceptOrder(vector<MenuItem> &m)
         showMenu(m); // show the updated menu
         cout << "\nSubtotal: $" << subtotal << endl;  
         itemNames.push_back(m[i].getName());
+        itemCosts.push_back(m[i].getItemCost());
       }
       else if(option == m[i].getRemoveLetter())
       {
@@ -171,12 +184,12 @@ void acceptOrder(vector<MenuItem> &m)
   } while(option != 'x' && option != 'X'); 
   cout << "\nThank you for placing your order." << endl; 
 
-  cout << "Would you like to tip? (Y/N): ";
+  cout << "\nWould you like to tip 20% or more? (Y/N): ";
   cin >> tipChoice;
   double tipAmount = 0.0;
   if (tipChoice == 'Y' || tipChoice == 'y')
   {
-    cout << "\nHow much would you like to tip? (suggest 20% or more, enter in decimal): ";
+    cout << "\nEnter tip amount (in decimal): ";
     cin >> tipAmount;
   }
 
@@ -188,7 +201,7 @@ void acceptOrder(vector<MenuItem> &m)
   
   // tipping/receipt
   cout << "\nYour total amount after tipping and taxes is " << amount << endl;
-  cout << "\nWould you like to pay with cash or credit? (A for cash / R for credit): ";
+  cout << "\nWould you like to pay with cash or credit card? (A for cash / R for credit): ";
   cin >> payment;
   if (payment == 'A' || payment == 'a')
   {
@@ -199,18 +212,18 @@ void acceptOrder(vector<MenuItem> &m)
     {
       cout << "\nYour change is $" << tender - amount << endl;
     }
-    printReceipt(itemNames, m, subtotal, amount, tipping, tax, tipAmount);
+    printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
   }
   else if (payment == 'R' || payment == 'r')
   {
     cout << "Processing Payment..." << endl;
     cout << "Your payment has been processed." << endl;
-    printReceipt(itemNames, m, subtotal, amount, tipping, tax, tipAmount);
+    printReceipt(itemNames, itemCosts, m, subtotal, amount, tipping, tax, tipAmount, payment, tender);
   }
   
 }
 
-void printReceipt(vector<string> itemNames, vector<MenuItem> m, double subtotal, double amount, double tipping, double tax, double tipAmount)
+void printReceipt(vector<string> itemNames, vector<double> itemCosts, vector<MenuItem> m, double subtotal, double amount, double tipping, double tax, double tipAmount, char payment, double tender)
 {
   cout << "\n\nHere is your receipt! Thank you for coming, have an amazing day!" << endl;
   cout << "\n----------------------------" << endl;
@@ -220,7 +233,7 @@ void printReceipt(vector<string> itemNames, vector<MenuItem> m, double subtotal,
   cout << "----------------------------" << endl;
   for (int j = 0; j < itemNames.size(); j++)
     {
-    cout << itemNames[j] << endl;
+    cout << itemNames[j] << setw(20) << itemCosts[j] << endl;
     }
 
   // display money portion
@@ -229,4 +242,18 @@ void printReceipt(vector<string> itemNames, vector<MenuItem> m, double subtotal,
   cout << "Subtotal: " << subtotal << endl;
   cout << "Sales Tax: " << tax << endl;
   cout << "Tipping (" << tipAmount << "): " << tipping << endl;
+  cout << "----------------------------" << endl;
+  if (payment == 'A')
+  {
+    cout << "CASH" << setw(20) << tender << endl;
+    cout << "----------------------------" << endl;
+    cout << "Change Due" << setw(20) << tender - amount << endl;
+  }
+  else if (payment == 'R')
+  {
+    cout << "CREDIT CARD" << setw(24) << amount << endl;
+    cout << "************1234" << endl;
+    cout << "----------------------------" << endl;
+    cout << "Change Due" << setw(18) << "$0.00" << endl;
+  }
 }
