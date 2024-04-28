@@ -104,7 +104,7 @@ void populateMenu(vector<MenuItem> &entireMenu)
 void showMenu(vector<MenuItem> &m)
 {
   cout << fixed << setprecision(2); // set doubles to 2 decimal places
-  cout << "\t\t\t\t\t\t\t\t\t LETTUCE EAT" << endl; 
+  cout << "\t\t\t\t\t\t\t\t  🥪 LETTUCE EAT 🥪" << endl; 
   cout << "-----------------------------------------------------------------------------------" << endl;
   cout << "ADD  \tNAME \t  COST\tREMOVE COUNT\t\t\t\t\t DESC" << endl; 
   cout << "---     ----      ----  ------ -----                     ----" << endl;
@@ -177,7 +177,7 @@ void acceptOrder(vector<MenuItem> &m)
                 option != 'X' 
             ) // test for all of my valid inputs
             {
-              if(i == 0)
+              if (i == 0)
               {
                 cout << "\nInvalid input (" << option << "). Please try again." << endl; 
               }  
@@ -186,14 +186,28 @@ void acceptOrder(vector<MenuItem> &m)
   } while(option != 'x' && option != 'X'); 
   cout << "\nThank you for placing your order." << endl; 
 
-  cout << "\nWould you like to tip 20% or more? (Y/N): ";
-  cin >> tipChoice;
+  
+  // ask for tips
   double tipAmount = 0.0;
-  if (tipChoice == 'Y' || tipChoice == 'y')
+  do
   {
-    cout << "\nEnter tip amount (in decimal): ";
-    cin >> tipAmount;
+    cout << "\nWould you like to tip 20% or more? (Y/N): ";
+    cin >> tipChoice;
+    if (tipChoice == 'Y' || tipChoice == 'y')
+    {
+      cout << "\nEnter tip amount (in decimal): ";
+      cin >> tipAmount;
+    }
+    else if (tipChoice == 'N' || tipChoice == 'n')
+    {
+      cout << "\nNo tip will be added." << endl;
+    }
+    else
+    {
+      cout << "\nInvalid option. Plese try again." << endl;
+    }
   }
+    while (tipChoice != 'Y' && tipChoice != 'y' && tipChoice != 'N' && tipChoice != 'n');
 
   char payment = '\0';
   double tipping = (subtotal * tipAmount);
@@ -226,7 +240,7 @@ void acceptOrder(vector<MenuItem> &m)
   }
 
 
-  // receipt generation
+  // receipt generation to receipt.txt
   string my_string = "Default";
   string my_string2 = "Default";
   string my_string3 = "Default";
@@ -235,17 +249,32 @@ void acceptOrder(vector<MenuItem> &m)
   ofstream outputFile("RECEIPT.txt");
   if (outputFile.is_open()) // once opened, put the receipt into the file
   {
-    ostringstream doubleNum;
     outputFile << fixed << setprecision(2); // set so displays two decimal places
     
     // display money portion
-    my_string = "----------------------------\nSubtotal: ";
+    my_string = "\t\t\t\tYOUR RECEIPT\n----------------------------\n";
+    outputFile << my_string;
+    for (int k = 0; k < itemNames.size(); k++)
+      {
+        int length = 10 - itemNames[k].length();
+        string space = " ";
+        for (int i = 0; i < length; i++) 
+        {
+            space += " "; // Concatenate a space to the string for each character
+        }
+        my_string2 = itemNames[k];
+        my_string = "\n";
+        my_string3 = "$";
+        outputFile << my_string2 << space << my_string3 << itemCosts[k] << my_string;
+      }
+    my_string = "TOTAL ITEMS PURCHASED = ";
+    outputFile << my_string << itemNames.size();
+    my_string = "\n----------------------------\nSubtotal: ";
     outputFile << my_string << subtotal;
 
     my_string = "\nTipping (";
-    outputFile << my_string << tipAmount;
     my_string2 = "): ";
-    outputFile << my_string2 << tipping;
+    outputFile << my_string << tipAmount << my_string2 << tipping;
 
     my_string = "\nTax: ";
     outputFile << my_string << tax;
@@ -253,18 +282,26 @@ void acceptOrder(vector<MenuItem> &m)
     my_string = "\nTOTAL: ";
     outputFile << my_string << amount;
 
-    my_string2 = "\n----------------------------\n"
+    my_string2 = "\n----------------------------\n";
     outputFile << my_string2;
     
     if (payment == 'A'|| payment == 'a')
     {
-      my_string3 = "CASH: " + to_string(tender) + "\n----------------------------\nCHANGE: " + to_string(tender - amount) + "\n----------------------------\n";
+      my_string3 = "CASH: ";
+      my_string2 = "\n----------------------------\nCHANGE: ";
+      my_string = "\n----------------------------\n";
+      outputFile << my_string3 << tender << my_string2 << tender - amount << my_string << endl;
+      
     }
     else if (payment == 'R' || payment == 'r')
     {
       my_string3 = "CREDIT CARD \n************1234\n----------------------------\nChange Due: $00.00";
+      outputFile << my_string3;
     }
-    outputFile << my_string << my_string2;
+
+    my_string = "\n----------------------------\n   THANK YOU FOR EATING AT\n\t   LETTUCE EAT 🥦";
+    outputFile << my_string;
+    
   }
   else 
   {
@@ -277,35 +314,38 @@ void acceptOrder(vector<MenuItem> &m)
 void printReceipt(vector<string> itemNames, vector<double> itemCosts, vector<MenuItem> m, double subtotal, double amount, double tipping, double tax, double tipAmount, char payment, double tender)
 {
   cout << "\n----------------------------" << endl;
-  cout << "YOUR RECEIPT" << endl;
+  cout << "\t\tYOUR RECEIPT" << endl;
 
   // display items
   cout << "----------------------------" << endl;
   for (int j = 0; j < itemNames.size(); j++)
     {
-    cout << itemNames[j] << setw(20) << itemCosts[j] << endl;
+    cout << itemNames[j] << setw(28 - itemNames[j].length()) << itemCosts[j] << endl;
     }
 
   // display money portion
+  cout << "\nTOTAL ITEMS PURCHASED = " << itemNames.size() << endl;
   cout << "----------------------------" << endl;
-  cout << "AMOUNT: " << amount << endl;
-  cout << "Subtotal: " << subtotal << endl;
-  cout << "Sales Tax: " << tax << endl;
-  cout << "Tipping (" << tipAmount << "): " << tipping << endl;
+  cout << "Subtotal: " << setw(18) << subtotal << endl;
+  cout << "Sales Tax: " << setw(17) << tax << endl;
+  cout << "Tipping (" << tipAmount << "): " << setw(12) << tipping << endl;
+  cout << "TOTAL: " << setw(21) << amount << endl;
   cout << "----------------------------" << endl;
   if (payment == 'A' || payment == 'a')
   {
-    cout << "CASH" << setw(20) << tender << endl;
+    cout << "CASH" << setw(24) << tender << endl;
     cout << "----------------------------" << endl;
-    cout << "Change Due" << setw(20) << tender - amount << endl;
+    cout << "Change Due" << setw(18) << tender - amount << endl;
   }
   else if (payment == 'R' || payment == 'r')
   {
-    cout << "CREDIT CARD" << setw(24) << amount << endl;
+    cout << "CREDIT CARD " << setw(16) << amount << endl;
     cout << "************1234" << endl;
     cout << "----------------------------" << endl;
     cout << "Change Due" << setw(18) << "$0.00" << endl;
   }
+  cout << "----------------------------" << endl;
+  cout << "   THANK YOU FOR EATING AT" << endl << "\t   LETTUCE EAT 🥦" << endl;
 
-  cout << "Now generating the receipt..." << endl;
+  cout << "\nNow generating the receipt in RECEIPT.txt..." << endl;
 }
