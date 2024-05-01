@@ -1,22 +1,27 @@
 				YOUR RECEIPT
 ------------------------------
 Green Tea              $3.25
-Lemonade               $3.25
-Fruit Tart             $5.50
-Veggie Wrap            $11.75
-Fish Fillet            $18.75
-Smoked Steak           $20.75
+Green Tea              $3.25
+Green Tea              $3.25
+Green Tea              $3.25
+Green Tea              $3.25
+Green Tea              $3.25
+Green Tea              $3.25
+Green Tea              $3.25
+Green Tea              $3.25
+Green Tea              $3.25
 
-TOTAL ITEMS PURCHASED = 6
+TOTAL ITEMS PURCHASED = 10
 ------------------------------
-Subtotal:              $63.25
-Tipping (0.00):        $0.00
-Tax:                   $5.22
-TOTAL:                 $68.47
+Subtotal:              $32.50
+Tipping (22.00):        $715.00
+Tax:                   $2.68
+TOTAL:                 $750.18
 ------------------------------
-CASH:                  $100.00
-------------------------------
-CHANGE:                $31.53
-------------------------------
+CREDIT CARD            $750.18
+************1234
+-----------------------------
+Change Due: $00.00
+-----------------------------
   THANK YOU FOR EATING AT
 	    LETTUCE EAT 🥦

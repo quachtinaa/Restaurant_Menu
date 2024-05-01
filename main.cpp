@@ -1,7 +1,8 @@
 // Tina Quach
 // COSC-1437-58002 - Dr.T
 // Date: 04/25/2024
-// menu-driven restaurant program
+// Program: Restaurant Simulation, asks user for what they want to order, and prints out receipt based on their order, tipping, subtotal, etc.
+// Skills: classes, input/output using fstream operators, vector classes
 // Credit to Dr. T for making the outline and menu
 
 #include <iostream>
